@@ -18,7 +18,7 @@ echo "<p>Aujourd'hui, nous sommes le $date.</p>";
 <ul>
     <li><a href="connexion.php">Page 1</a></li>
     <li><a href="inscription.php">Page 2</a></li>
-    <li><a href="page3.php">Page 3</a></li>
+    <li><a href="trajet.php">Page 3</a></li>
 </ul>
 </body>
 </html>
