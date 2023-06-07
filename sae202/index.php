@@ -19,6 +19,8 @@ echo "<p>Aujourd'hui, nous sommes le $date.</p>";
     <li><a href="connexion.php">Page 1</a></li>
     <li><a href="inscription.php">Page 2</a></li>
     <li><a href="trajet.php">Page 3</a></li>
+    <li><a href="parking.php">Parking</a> </li>
+    <li><a href="profil.php">Voir/Mettre à jour mon profil</a></li>
 </ul>
 </body>
 </html>

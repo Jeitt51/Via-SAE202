@@ -8,12 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = $_POST["nom"];
     $email = $_POST["email"];
     $mdp = $_POST["mdp"];
+    $satut = $_POST["statut"];
 
     // Connexion à la base de données
     $mabd=connexionBD();
 
     // Requête SQL pour insérer les informations dans la base de données
-    $req = "INSERT INTO Usagers (nom, usagers_email, usagers_mdp) VALUES ('$nom', '$email', '$mdp')";
+    $req = "INSERT INTO Usagers (nom, usagers_email, usagers_mdp, statut) VALUES ('$nom', '$email', '$mdp', '$satut')";
 
     if ($mabd->query($req)) {
         // Enregistrement réussi
@@ -47,6 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <label for="mdp">Mot de passe:</label>
     <input type="password" id="mdp" name="mdp" required><br><br>
+
+    <label>Statut:</label>
+    <div>
+        <input type="radio" id="eleve" name="statut" value="eleve" checked>
+        <label for="eleve">Élève</label>
+    </div>
+    <div>
+        <input type="radio" id="prof" name="statut" value="prof">
+        <label for="prof">Professeur</label>
+    </div>
 
     <input type="submit" value="S'inscrire">
 </form>
