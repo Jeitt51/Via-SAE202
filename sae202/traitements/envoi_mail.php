@@ -1,10 +1,8 @@
 <?php
+$headers = array();
 $headers['MIME-Version'] = '1.0';
 $headers['content-type'] = 'text/html; charset=utf-8';
 ?>
-
-
-
 
 <?php
 // Vérification de l'appel via le formulaire
@@ -27,7 +25,7 @@ $message = $message . "demande de type " .$envoi;
 // $nom=mb_strtolower($nom);
 
 //Préparation des variables pour l'envoi du mail de contact
-$subject='SAE105 : demande de '.$prenom.' '.$nom;
+$subject='SAE202 : demande de '.$prenom.' '.$nom;
 $headers['From']=$email;
 $headers['Reply-to']=$email;
 $headers['X-Mailer']='PHP/'.phpversion();
@@ -118,11 +116,10 @@ if ($erreurs == 0) {
 <head>
     <title>envoi_mail</title>
     <meta charset="utf-8">
-
 </head>
 <div>
     <body>
-    <main id="mail">
+    <main>
         <?php
 
         //echo 'Votre nom : '.ucfirst($prenom).' '.ucfirst($nom).'<br>';
@@ -137,9 +134,9 @@ if ($erreurs == 0) {
             echo '</form>'."\n";
             echo '</div>'."\n";
 
-        } else {                                                  // Erreurs de saisie ou d'envoi du mail
+        } else {   //erreur de saisie ou d'envoi de mail                                               // Erreurs de saisie ou d'envoi du mail
 
-            echo '<div id="echec">'."\n";
+            echo '<div>'."\n";
             echo '<p>'.$affichage_retour.'</p>'."\n";
             echo '<form action="../contact.php">'."\n";
             echo '<button type="submit">Retour</button>'."\n";        // on retourne sur la page accueil
@@ -147,7 +144,6 @@ if ($erreurs == 0) {
             echo '</div>'."\n";
         }
         ?>
-
     </main>
     </body>
 </div>

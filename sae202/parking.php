@@ -9,19 +9,41 @@ $sql = "SELECT * FROM Parking";
 $result = $mabd->query($sql);
 $parkings = $result->fetchAll(PDO::FETCH_ASSOC);
 
-// Affichage des informations des parkings
+echo 'Choisissez le parking que vous souhaitez afficher !<br>&nbsp;<br>';
+
+
+// Affichage de la liste déroulante
+echo '<form action="" method="GET">';
+echo '<select name="parking_id">';
 foreach ($parkings as $parking) {
-    echo "Nom du parking : " . $parking['parking_nom'] . "<br>";
-    echo "Commentaire : " . $parking['parking_comm'] . "<br>";
+    echo '<option value="' . $parking['parking_id'] . '">' . $parking['parking_nom'] . '</option>';
+}
+echo '</select>';
+echo '<input type="submit" value="Afficher">';
+echo '</form>';
+
+// Vérification si un parking a été sélectionné
+if (isset($_GET['parking_id'])) {
+    $selectedParkingId = $_GET['parking_id'];
+
+    // Requête SQL pour récupérer les informations du parking sélectionné
+    $sql = "SELECT * FROM Parking WHERE parking_id = :parking_id";
+    $stmt = $mabd->prepare($sql);
+    $stmt->bindParam(':parking_id', $selectedParkingId);
+    $stmt->execute();
+    $selectedParking = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Affichage des informations du parking sélectionné
+    echo "Nom du parking : " . $selectedParking['parking_nom'] . "<br>";
+    echo "Commentaire : " . $selectedParking['parking_comm'] . "<br>";
 
     // Affichage de l'image de Google Maps
-    echo '<iframe src="https://www.google.com/maps/embed?pb=' . $parking['parking_map'] . '"
+    echo '<iframe src="https://www.google.com/maps/embed?pb=' . $selectedParking['parking_map'] . '"
     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
     </iframe><br><br>';
 
     // Ajout du lien de suppression
-    // echo '<a href="admin/delete-parking.php?id=' . $parking['parking_id'] . '">Supprimer ce parking</a>';
-
+    // echo '<a href="admin/delete-parking.php?id=' . $selectedParking['parking_id'] . '">Supprimer ce parking</a>';
 }
 
 // Fermeture de la connexion à la base de données

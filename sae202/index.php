@@ -4,7 +4,7 @@
     <title>Page d'accueil</title>
 </head>
 <body>
-<h1>Bienvenue sur ma page d'accueil</h1>
+<h1>Bienvenue sur notre site de Covoiturage</h1>
 
 <?php
 // Ton code PHP ici
@@ -14,12 +14,12 @@ $date = date('d/m/Y');
 echo "<p>Aujourd'hui, nous sommes le $date.</p>";
 ?>
 
-<p>Voici quelques exemples de liens :</p>
+<p>Voici les liens importants :</p>
 <ul>
-    <li><a href="connexion.php">Page 1</a></li>
-    <li><a href="inscription.php">Page 2</a></li>
-    <li><a href="trajet.php">Page 3</a></li>
-    <li><a href="parking.php">Parking</a> </li>
+    <li><a href="connexion.php">Page de connexion</a></li>
+    <li><a href="inscription.php">Page d'inscription</a></li>
+    <li><a href="trajet.php">Page de trajets</a></li>
+    <li><a href="parking.php">Page parking</a> </li>
     <li><a href="profil.php">Voir/Mettre à jour mon profil</a></li>
 </ul>
 </body>

@@ -27,7 +27,7 @@
                 <label for="message">Message <span>*</span></label>
                 <textarea type="message" name="message" id="message" placeholder="Votre message" required></textarea>
             </div>
-            <div id="radio">
+            <div>
                 <input type="radio" id="informations" name="envoi" value="informations">
                 <label for="informations">Informations</label><br>
 
@@ -40,10 +40,6 @@
             <div>
                 <input type="submit" value="Envoyer"/>
             </div>
-            </form>
-
-
-
         </form>
     </div>
 </main>

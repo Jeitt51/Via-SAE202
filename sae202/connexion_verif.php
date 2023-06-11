@@ -2,6 +2,8 @@
 session_start();
 require 'lib.inc.php';
 
+$compteurConnexions = 0;
+
 if (empty($_POST)) {
     header('Location: connexion.php');
 }
@@ -21,18 +23,18 @@ $lignes_resultat=$resultat->rowCount();
 
 if ($lignes_resultat>0) { // y a-t-il des résultats ?
 // oui : pour chaque résultat : afficher
-$ligne=$resultat->fetch(PDO::FETCH_ASSOC);
-
+    $ligne = $resultat->fetch(PDO::FETCH_ASSOC);
 
     if ($mdp == $ligne['usagers_mdp']) {
-        echo '<p>OK... :)</p>';
-        $_SESSION['prenom']=$ligne['prenom'];
-        $_SESSION['numero']=$ligne['user_id'];
+        //echo '<p>OK... :)</p>';
+        $_SESSION['prenom'] = $ligne['prenom'];
+        $_SESSION['numero'] = $ligne['user_id'];
         header('location:index.php');
+
     } else {
 //echo '<p>KO... :(</p>';
-        $_SESSION['erreur']='<h1 class="erreur">Le mot de passe saisi est incorrect.</h1>';
+        $_SESSION['erreur'] = '<h1>Le mot de passe 
+deconnexionBD($mabd);saisi est incorrect.</h1>';
         header('location:connexion.php');
     }
 }
-deconnexionBD($mabd);

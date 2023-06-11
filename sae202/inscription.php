@@ -6,21 +6,32 @@ require 'lib.inc.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des valeurs saisies dans le formulaire
     $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
     $email = $_POST["email"];
     $mdp = $_POST["mdp"];
-    $satut = $_POST["statut"];
+    $statut = $_POST["statut"];
 
     // Connexion à la base de données
     $mabd=connexionBD();
 
     // Requête SQL pour insérer les informations dans la base de données
-    $req = "INSERT INTO Usagers (nom, usagers_email, usagers_mdp, statut) VALUES ('$nom', '$email', '$mdp', '$satut')";
+    $req = "INSERT INTO Usagers (nom, usagers_email, prenom, usagers_mdp, statut, photo_profil) VALUES (:nom, :email, :prenom, :mdp, :statut, :photo_profil)";
 
-    if ($mabd->query($req)) {
+    // Appel de la fonction pour choisir le nom du fichier d'image de profil
+    $nomFichierPhoto = choisirPhotoProfil($statut);
+
+    // Préparation de la requête avec des paramètres nommés
+    $stmt = $mabd->prepare($req);
+    $stmt->bindParam(':nom', $nom);
+    $stmt->bindParam(':prenom', $prenom);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':mdp', $mdp);
+    $stmt->bindParam(':statut', $statut);
+    $stmt->bindParam(':photo_profil', $nomFichierPhoto);
+
+    if ($stmt->execute()) {
         // Enregistrement réussi
         echo "Enregistrement réussi !";
-        // Autres actions à effectuer après l'enregistrement
-
     } else {
         // Erreur lors de l'enregistrement
         echo "Erreur lors de l'enregistrement : ";
@@ -43,6 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="nom">Nom:</label>
     <input type="text" id="nom" name="nom" required><br><br>
 
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom" required><br><br>
+
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br><br>
 
@@ -61,5 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <input type="submit" value="S'inscrire">
 </form>
+
 </body>
 </html>
