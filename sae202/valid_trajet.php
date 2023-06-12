@@ -33,20 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->rowCount() > 0) {
             // Récupération de l'ID du trajet inséré
             $trajet_id = $mabd->lastInsertId();
-
-            // Requête SQL pour insérer l'association entre l'utilisateur et le trajet dans la table "TrajetsUtilisateurs"
-            $sqlInsertUserTrajet = "INSERT INTO TrajetsUtilisateurs (user_id, trajet_id) VALUES (:user_id, :trajet_id)";
-            $stmtUserTrajet = $mabd->prepare($sqlInsertUserTrajet);
-            $stmtUserTrajet->bindValue(':user_id', $user_id);
-            $stmtUserTrajet->bindValue(':trajet_id', $trajet_id);
-            $stmtUserTrajet->execute();
-
-            // Vérification si l'insertion a réussi
-            if ($stmtUserTrajet->rowCount() > 0) {
-                echo "Le trajet a été créé avec succès.";
-            } else {
-                echo "Erreur lors de la création du trajet.";
-            }
+            echo "Le trajet a été créé avec succès.";
         } else {
             echo "Erreur lors de la création du trajet.";
         }
@@ -57,3 +44,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fermeture de la connexion à la base de données
 deconnexionBD($mabd);
+?>
