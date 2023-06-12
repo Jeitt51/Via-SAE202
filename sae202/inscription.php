@@ -1,5 +1,4 @@
 <?php
-
 require 'lib.inc.php';
 
 // Vérification si le formulaire a été soumis
@@ -52,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <h1>Inscription</h1>
 
-<form action="inscription_verif.php" method="post">
+<form action="inscription.php" method="post">
     <label for="nom">Nom:</label>
     <input type="text" id="nom" name="nom" required><br><br>
 
