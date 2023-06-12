@@ -20,6 +20,7 @@ echo "<p>Aujourd'hui, nous sommes le $date.</p>";
     <li><a href="inscription.php">Page d'inscription</a></li>
     <li><a href="trajet.php">Page de trajets</a></li>
     <li><a href="parking.php">Page parking</a> </li>
+    <li><a href="contact.php">Page contact</a> </li>
     <li><a href="profil.php">Voir/Mettre à jour mon profil</a></li>
 </ul>
 </body>

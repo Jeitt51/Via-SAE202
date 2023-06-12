@@ -10,12 +10,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $mdp = $_POST["mdp"];
     $statut = $_POST["statut"];
+    $age = $_POST["age"];
 
     // Connexion à la base de données
     $mabd=connexionBD();
 
     // Requête SQL pour insérer les informations dans la base de données
-    $req = "INSERT INTO Usagers (nom, usagers_email, prenom, usagers_mdp, statut, photo_profil) VALUES (:nom, :email, :prenom, :mdp, :statut, :photo_profil)";
+    $req = "INSERT INTO Usagers (nom, usagers_email, prenom, age, usagers_mdp, statut, photo_profil) VALUES (:nom, :email, :prenom, :age, :mdp, :statut, :photo_profil)";
 
     // Appel de la fonction pour choisir le nom du fichier d'image de profil
     $nomFichierPhoto = choisirPhotoProfil($statut);
@@ -24,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $mabd->prepare($req);
     $stmt->bindParam(':nom', $nom);
     $stmt->bindParam(':prenom', $prenom);
+    $stmt->bindParam(':age', $age);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':mdp', $mdp);
     $stmt->bindParam(':statut', $statut);
@@ -50,12 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <h1>Inscription</h1>
 
-<form method="post" action="">
+<form action="inscription_verif.php" method="post">
     <label for="nom">Nom:</label>
     <input type="text" id="nom" name="nom" required><br><br>
 
     <label for="prenom">Prénom:</label>
     <input type="text" id="prenom" name="prenom" required><br><br>
+
+    <label for="age">Age :</label>
+    <input type="text" id="age" name="age" required><br><br>
 
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br><br>

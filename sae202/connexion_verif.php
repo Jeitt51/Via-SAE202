@@ -26,15 +26,15 @@ if ($lignes_resultat>0) { // y a-t-il des résultats ?
     $ligne = $resultat->fetch(PDO::FETCH_ASSOC);
 
     if ($mdp == $ligne['usagers_mdp']) {
-        //echo '<p>OK... :)</p>';
+        //echo '<p>retour à la page <a href="index.php"> d'accueil </a>/p>';
         $_SESSION['prenom'] = $ligne['prenom'];
         $_SESSION['numero'] = $ligne['user_id'];
-        header('location:index.php');
+        header('Location: index.php');
 
     } else {
 //echo '<p>KO... :(</p>';
         $_SESSION['erreur'] = '<h1>Le mot de passe 
 deconnexionBD($mabd);saisi est incorrect.</h1>';
-        header('location:connexion.php');
+        header('Location: connexion.php');
     }
 }

@@ -24,26 +24,27 @@ $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
 // Vérification si le formulaire de mise à jour a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des nouvelles valeurs des champs
-    $nouveauPrenom = $_POST["prenom"];
+    $nouveauPrenom = isset($_POST["prenom"]) ? $_POST["prenom"] : '';
     $nouveauNom = $_POST["nom"];
     $nouveauEmail = $_POST["email"];
     $nouveauMDP = $_POST["mdp"];
-    $nouveauNumero = $_POST["numero"];
-    $nouveauAutre = $_POST["autre"];
+    $nouveauNum = $_POST["num"];
+    $nouveauDescription = $_POST["description"];
     $nouveauVehicule = $_POST["vehicule"];
     $nouveauFumeur = $_POST["fumeur"];
     $nouveauAnimaux = $_POST["animaux"];
     $nouveauMusique = $_POST["musique"];
 
     // Requête SQL pour mettre à jour les informations de l'utilisateur
-    $sqlMiseAJour = "UPDATE Usagers SET nom = :nom, usagers_email = :email, usagers_mdp = :mdp, num =:numero, autre =:autre, vehicule =:vehicule,
-                   fumeur =:fumeur, animaux =: anaimaux, musique =:musique WHERE user_id = :id";
+    $sqlMiseAJour = "UPDATE Usagers SET prenom = :prenom, nom = :nom, usagers_email = :email, usagers_mdp = :mdp, num = :num, description = :description, vehicule = :vehicule,
+                   fumeur =:fumeur, animaux = :animaux, musique = :musique WHERE user_id = :id";
     $stmtMiseAJour = $mabd->prepare($sqlMiseAJour);
+    $stmtMiseAJour->bindParam(':prenom', $nouveauPrenom);
     $stmtMiseAJour->bindParam(':nom', $nouveauNom);
     $stmtMiseAJour->bindParam(':email', $nouveauEmail);
     $stmtMiseAJour->bindParam(':mdp', $nouveauMDP);
-    $stmtMiseAJour->bindParam(':numero', $nouveauNumero);
-    $stmtMiseAJour->bindParam(':autre', $nouveauAutre);
+    $stmtMiseAJour->bindParam(':num', $nouveauNum);
+    $stmtMiseAJour->bindParam(':description', $nouveauDescription);
     $stmtMiseAJour->bindParam(':vehicule', $nouveauVehicule);
     $stmtMiseAJour->bindParam(':fumeur', $nouveauFumeur);
     $stmtMiseAJour->bindParam(':animaux', $nouveauAnimaux);
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtMiseAJour->execute();
 
     // Mise à jour des informations de l'utilisateur dans la session
-    $_SESSION['prenom'] = $nouveauNom;
+    $_SESSION['prenom'] = $nouveauPrenom;
     $_SESSION['modification_reussie'] = true;
 
     // Redirection vers la page de profil après la mise à jour
@@ -106,11 +107,11 @@ deconnexionBD($mabd);
     <input type="password" id="mdp" name="mdp" value="<?php echo $utilisateur['usagers_mdp']; ?>" required>
     <input type="checkbox" onclick="togglePasswordVisibility()"> Afficher le mot de passe<br><br>
 
-    <label for="numero">Numéro de téléphone :</label>
-    <input type="number" id="numero" name="numero" value="<?php echo $utilisateur['num']; ?>" required><br><br>
+    <label for="num">Numéro de téléphone :</label>
+    <input type="text" id="num" name="num" value="<?php echo $utilisateur['num']; ?>" required><br><br>
 
-    <label for="autre">autre :</label>
-    <input type="text" id="autre" name="autre" value="<?php echo $utilisateur['autre']; ?>" required><br><br>
+    <label for="description">description :</label>
+    <input type="text" id="description" name="description" value="<?php echo $utilisateur['description']; ?>" required><br><br>
 
     <label for="vehicule">vehicule :</label>
     <input type="text" id="vehicule" name="vehicule" value="<?php echo $utilisateur['vehicule']; ?>" required><br><br>
