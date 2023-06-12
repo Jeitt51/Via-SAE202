@@ -1,15 +1,14 @@
 <?php
+
 // Connexion à la base de données
 require 'lib.inc.php';
 
 $mabd = connexionBD();
 
-// Vérification de la connexion
 
-// Récupération des options de départ, d'arrivée et d'heure depuis la base de données
+// Récupération des options de départ et d'arrivée depuis la base de données
 $optionsDepart = [];
 $optionsArrivee = [];
-$optionsHeure = [];
 
 // Requête pour récupérer les options de départ
 $sqlDepart = "SELECT DISTINCT depart FROM Trajets";
@@ -31,30 +30,12 @@ if ($resultArrivee !== false) {
     }
 }
 
-// Requête pour récupérer les options d'heure
-$sqlHeure = "SELECT DISTINCT heure FROM Trajets";
-$resultHeure = $mabd->query($sqlHeure);
-if ($resultHeure !== false) {
-    $optionsHeure = [];
-    while ($row = $resultHeure->fetch(PDO::FETCH_ASSOC)) {
-        $optionsHeure[] = $row["heure"];
-    }
-}
-
 // Fermeture de la connexion à la base de données
 deconnexionBD($mabd);
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sélection de trajet</title>
-</head>
-<body>
-<h1>Sélection de trajet</h1>
-
-<!-- Formulaire de recherche de trajet -->
-<form method="post" action="resultats_trajet.php">
+<!-- Formulaire de création de trajet -->
+<form method="post" action="valid_trajet.php">
     <label for="depart">Départ :</label>
     <select id="depart" name="depart" required>
         <option value="">Choisir une option</option>
@@ -75,17 +56,16 @@ deconnexionBD($mabd);
         ?>
     </select><br><br>
 
+    <label for="date">Date :</label>
+    <input type="date" id="date" name="date" min="<?php echo date('Y-m-d'); ?>" required><br><br>
+
     <label for="heure">Heure :</label>
-    <select id="heure" name="heure" required>
-        <option value="">Choisir une option</option>
-        <?php
-        foreach ($optionsHeure as $option) {
-            echo '<option value="' . $option . '">' . $option . '</option>';
-        }
-        ?>
-    </select><br><br>
+    <input type="time" id="heure" name="heure" required><br><br>
 
-    <input type="submit" value="Rechercher">
+    <label for="nombre_places">Nombre de places :</label>
+    <input type="number" id="nombre_places" name="nombre_places" required><br><br>
+
+    <input type="submit" value="Créer trajet">
 </form>
-
-<br><br>
+</body>
+</html>

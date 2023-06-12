@@ -1,8 +1,6 @@
 <?php
-
 // Connexion à la base de données
 require 'lib.inc.php';
-
 $mabd = connexionBD();
 
 // Vérification si le formulaire de création de trajet a été soumis
@@ -14,14 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $heure = $_POST['heure'];
     $nombrePlaces = $_POST['nombre_places'];
 
-    // Vérification si la date sélectionnée est antérieure à la date d'aujourd'hui
-    $dateActuelle = date('Y-m-d');
-    if ($date < $dateActuelle) {
-        echo "La date sélectionnée est antérieure à la date d'aujourd'hui.";
-    } else {
-        // Requête SQL pour insérer le nouveau trajet dans la base de données
-        $sqlInsert = "INSERT INTO Trajets (depart, arrivee, date, heure, nombre_de_places) VALUES (:depart, :arrivee, :date, :heure, :nombre_places)";
+    // Vérification si l'utilisateur est connecté
+    session_start();
+    if (isset($_SESSION['user_id'])) {
+        // Récupération de l'ID de l'utilisateur connecté
+        $user_id = $_SESSION['user_id'];
+
+        // Requête SQL pour insérer le nouveau trajet dans la table "Trajets"
+        $sqlInsert = "INSERT INTO Trajets (user_id, depart, arrivee, date, heure, nombre_places) VALUES (:user_id, :depart, :arrivee, :date, :heure, :nombre_places)";
         $stmt = $mabd->prepare($sqlInsert);
+        $stmt->bindValue(':user_id', $user_id);
         $stmt->bindValue(':depart', $depart);
         $stmt->bindValue(':arrivee', $arrivee);
         $stmt->bindValue(':date', $date);
@@ -31,13 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Vérification si l'insertion a réussi
         if ($stmt->rowCount() > 0) {
-            echo "Le trajet a été créé avec succès.";
+            // Récupération de l'ID du trajet inséré
+            $trajet_id = $mabd->lastInsertId();
+
+            // Requête SQL pour insérer l'association entre l'utilisateur et le trajet dans la table "TrajetsUtilisateurs"
+            $sqlInsertUserTrajet = "INSERT INTO TrajetsUtilisateurs (user_id, trajet_id) VALUES (:user_id, :trajet_id)";
+            $stmtUserTrajet = $mabd->prepare($sqlInsertUserTrajet);
+            $stmtUserTrajet->bindValue(':user_id', $user_id);
+            $stmtUserTrajet->bindValue(':trajet_id', $trajet_id);
+            $stmtUserTrajet->execute();
+
+            // Vérification si l'insertion a réussi
+            if ($stmtUserTrajet->rowCount() > 0) {
+                echo "Le trajet a été créé avec succès.";
+            } else {
+                echo "Erreur lors de la création du trajet.";
+            }
         } else {
             echo "Erreur lors de la création du trajet.";
         }
+    } else {
+        echo "Utilisateur non connecté.";
     }
 }
 
 // Fermeture de la connexion à la base de données
 deconnexionBD($mabd);
-

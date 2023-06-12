@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des valeurs saisies dans le formulaire
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
+    $num = $_POST["num"];
     $email = $_POST["email"];
     $mdp = $_POST["mdp"];
     $statut = $_POST["statut"];
@@ -15,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mabd=connexionBD();
 
     // Requête SQL pour insérer les informations dans la base de données
-    $req = "INSERT INTO Usagers (nom, usagers_email, prenom, age, usagers_mdp, statut, photo_profil) VALUES (:nom, :email, :prenom, :age, :mdp, :statut, :photo_profil)";
+    $req = "INSERT INTO Usagers (nom, usagers_email, prenom, num, age, usagers_mdp, statut, photo_profil) VALUES (:nom, :email, :prenom, :num, :age, :mdp, :statut, :photo_profil)";
 
     // Appel de la fonction pour choisir le nom du fichier d'image de profil
     $nomFichierPhoto = choisirPhotoProfil($statut);
@@ -24,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $mabd->prepare($req);
     $stmt->bindParam(':nom', $nom);
     $stmt->bindParam(':prenom', $prenom);
+    $stmt->bindParam(':num', $num);
     $stmt->bindParam(':age', $age);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':mdp', $mdp);
@@ -57,6 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <label for="prenom">Prénom:</label>
     <input type="text" id="prenom" name="prenom" required><br><br>
+
+    <label for="num">Numéro :</label>
+    <input type="text" id="num" name="num" required><br><br>
 
     <label for="age">Age :</label>
     <input type="text" id="age" name="age" required><br><br>
