@@ -1,16 +1,22 @@
 <?php
 require 'lib.inc.php';
 session_start();
+
+// Vérification si l'utilisateur est connecté
+if (!isset($_SESSION['user_id'])) {
+    // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
+    header("Location: connexion.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
 // Récupération des trajets de l'utilisateur à partir de la base de données
 $mabd = connexionBD();
 
-// Le nom de l'utilisateur connecté
-$prenom = 'prenom';
-
-$sqlTrajets = "SELECT * FROM Trajets INNER JOIN Usagers ON Trajets.user_id = Usagers.user_id WHERE prenom = :prenom";
-
+$sqlTrajets = "SELECT * FROM Trajets WHERE user_id = :user_id";
 $stmt = $mabd->prepare($sqlTrajets);
-$stmt->bindParam(':prenom', $prenom);
+$stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -24,9 +30,9 @@ if ($trajets) {
         echo 'Date : ' . $trajet['date'] . '<br>';
         echo 'Heure : ' . $trajet['heure'] . '<br>';
         echo 'Nombre de places : ' . $trajet['nombre_places'] . '<br>';
-        echo '<a href="modifier_trajet.php?id=' . $trajet['id'] . '">Modifier</a>';
+        echo '<a href="modifier_trajet.php?id=' . $trajet['trajet_id'] . '">Modifier</a>';
         echo ' | ';
-        echo '<a href="supprimer_trajet.php?id=' . $trajet['id'] . '">Supprimer</a>';
+        echo '<a href="supprimer_trajet.php?id=' . $trajet['trajet_id'] . '">Supprimer</a>';
         echo '</p>';
     }
 } else {
