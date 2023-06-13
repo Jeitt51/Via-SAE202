@@ -2,6 +2,7 @@
 
 require 'secret.php';
 
+
 function connexionBD(){
     $mabd=null;
     try {

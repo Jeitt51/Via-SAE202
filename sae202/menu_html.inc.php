@@ -1,10 +1,8 @@
 <header>
   <nav>
         <a href="index.php">Accueil</a> -
-  </nav>
         <?php
         session_start();
-
         // Vérifier si l'utilisateur est connecté
         if (isset($_SESSION['prenom'])) {
             // Afficher un message de bienvenue avec le prénom de l'utilisateur
@@ -19,5 +17,5 @@
         ?>
 
         <a href="inscription.php">Inscription</a>
-    </div>
+    </nav>
 </header>

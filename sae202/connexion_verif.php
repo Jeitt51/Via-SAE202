@@ -13,7 +13,7 @@ $mdp = $_POST['mdp'];
 $mabd = connexionBD();
 $req = 'SELECT * FROM Usagers WHERE usagers_email LIKE :email';
 $stmt = $mabd->prepare($req);
-$stmt->bindValue(':email', '%'.$email.'%'); // Modifiez cette ligne
+$stmt->bindValue(':email', $email); // Modifiez cette ligne
 
 $stmt->execute();
 

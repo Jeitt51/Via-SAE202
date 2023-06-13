@@ -1,13 +1,13 @@
 <?php
 require 'lib.inc.php';
-
+session_start();
 // Récupération des trajets de l'utilisateur à partir de la base de données
 $mabd = connexionBD();
 
 // Le nom de l'utilisateur connecté
 $prenom = 'prenom';
 
-$sqlTrajets = "SELECT * FROM Trajets WHERE user_id IN (SELECT user_id FROM Usagers WHERE prenom = :prenom)";
+$sqlTrajets = "SELECT * FROM Trajets INNER JOIN Usagers ON Trajets.user_id = Usagers.user_id WHERE prenom = :prenom";
 
 $stmt = $mabd->prepare($sqlTrajets);
 $stmt->bindParam(':prenom', $prenom);
