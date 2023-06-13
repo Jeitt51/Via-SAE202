@@ -72,6 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h1>Profil utilisateur</h1>
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <label>Photo de profil :</label>
+    <img src="<?php echo choisirPhotoProfil($utilisateur['statut']); ?>" alt="Photo de profil"><br>
+
     <label>Prénom :</label>
     <input type="text" name="prenom" value="<?php echo isset($utilisateur['prenom']) ? $utilisateur['prenom'] : ''; ?>"><br>
 
