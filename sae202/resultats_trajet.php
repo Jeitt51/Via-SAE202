@@ -9,15 +9,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupération des valeurs sélectionnées dans le formulaire
     $depart = $_POST["depart"];
     $arrivee = $_POST["arrivee"];
+    $date = $_POST["date"];
 
     // Requête SQL pour récupérer les trajets correspondants
     $sql = "SELECT Trajets.*, nom 
             FROM Trajets 
             INNER JOIN Usagers ON Trajets.user_id = Usagers.user_id
-            WHERE depart = :depart AND arrivee = :arrivee";
+            WHERE depart = :depart AND arrivee = :arrivee AND date >= :date";
     $stmt = $mabd->prepare($sql);
     $stmt->bindParam(':depart', $depart);
     $stmt->bindParam(':arrivee', $arrivee);
+    $stmt->bindParam(':date', $date);
     $stmt->execute();
     $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
