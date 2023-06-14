@@ -17,20 +17,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Récupération de l'identifiant de l'utilisateur
         $user_id = $_SESSION['user_id'];
 
-        // Requête SQL pour insérer la réservation dans la table
-        $sqlInsert = "INSERT INTO Reservations (echange, bagages, user_id, trajet_id) VALUES (:echange, :bagages, :user_id, :trajet_id)";
-        $stmt = $mabd->prepare($sqlInsert);
-        $stmt->bindValue(':echange', $echange);
-        $stmt->bindValue(':bagages', $bagages);
-        $stmt->bindValue(':user_id', $user_id);
-        $stmt->bindValue(':trajet_id', $trajet_id);
-        $stmt->execute();
+        // Requête SQL pour vérifier si l'utilisateur et le trajet existent
+        $sqlCheck = "SELECT * FROM Usagers WHERE user_id = :user_id";
+        $stmtCheck = $mabd->prepare($sqlCheck);
+        $stmtCheck->bindValue(':user_id', $user_id);
+        $stmtCheck->execute();
 
-        // Vérification si l'insertion a réussi
-        if ($stmt->rowCount() > 0) {
-            echo "Votre trajet a bien été réservé.";
+        // Vérification si l'utilisateur existe
+        if ($stmtCheck->rowCount() > 0) {
+            // Requête SQL pour insérer la réservation dans la table
+            $sqlInsert = "INSERT INTO Reservations (echange, bagages, user_id, trajet_id) VALUES (:echange, :bagages, :user_id, :trajet_id)";
+            $stmtInsert = $mabd->prepare($sqlInsert);
+            $stmtInsert->bindValue(':echange', $echange);
+            $stmtInsert->bindValue(':bagages', $bagages);
+            $stmtInsert->bindValue(':user_id', $user_id);
+            $stmtInsert->bindValue(':trajet_id', $trajet_id);
+            $stmtInsert->execute();
+
+            // Vérification si l'insertion a réussi
+            if ($stmtInsert->rowCount() > 0) {
+                echo "Votre trajet a bien été réservé.";
+            } else {
+                echo "Erreur lors de la réservation du trajet.";
+            }
         } else {
-            echo "Erreur lors de la réservation du trajet.";
+            echo "L'utilisateur n'existe pas.";
         }
     } else {
         echo "Utilisateur non connecté.";
