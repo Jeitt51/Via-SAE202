@@ -38,7 +38,7 @@ if (isset($_GET['parking_id'])) {
     echo "Commentaire : " . $selectedParking['parking_comm'] . "<br>";
 
     // Affichage de l'image de Google Maps
-    echo '<iframe src="https://www.google.com/maps/embed?pb=' . $selectedParking['parking_map'] . '"
+    echo '<iframe src="https://www.google.com/maps/embed?pb=!' . $selectedParking['parking_map'] . '"
     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
     </iframe><br><br>';
 
