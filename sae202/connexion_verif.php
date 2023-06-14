@@ -7,8 +7,10 @@ if (empty($_POST)) {
     exit();
 }
 
-$email = $_POST['email'];
+$email_a_nettoyer = $_POST['email'];
 $mdp = $_POST['mdp'];
+
+$email = filter_var($email_a_nettoyer, FILTER_SANITIZE_SPECIAL_CHARS);
 
 $mabd = connexionBD();
 $req = 'SELECT * FROM Usagers WHERE usagers_email LIKE :email';
