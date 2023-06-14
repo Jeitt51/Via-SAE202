@@ -85,6 +85,12 @@ deconnexionBD($mabd);
         ?>
     </select><br><br>
 
+    <label for="date">Date :</label>
+    <input type="date" id="date" name="date" min="<?= date('Y-m-d') ?>" required><br><br>
+
+    <label for="places">Nombre de places :</label>
+    <input type="number" id="places" name="places" min="1" required><br><br>
+
     <input type="submit" value="Rechercher">
 </form>
 
