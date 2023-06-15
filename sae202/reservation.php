@@ -36,15 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Vérification si l'insertion a réussi
             if ($stmtInsert->rowCount() > 0) {
-                echo "Votre trajet a bien été réservé.";
+                echo "<script>alert('Votre trajet a bien été réservé.');</script>";
             } else {
-                echo "Erreur lors de la réservation du trajet.";
+                echo "<script>alert('Erreur lors de la réservation du trajet.');</script>";
             }
         } else {
-            echo "L'utilisateur n'existe pas.";
+            echo "<script>alert('L\'utilisateur n\'existe pas.');</script>";
         }
     } else {
-        echo "Utilisateur non connecté.";
+        echo "<script>alert('Utilisateur non connecté.');</script>";
     }
 }
 
