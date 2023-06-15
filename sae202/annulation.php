@@ -28,18 +28,18 @@ if (isset($_SESSION['user_id'])) {
             $stmtDelete->bindParam(':reservation_id', $reservation_id);
 
             if ($stmtDelete->execute()) {
-                echo "La réservation a été annulée avec succès.";
+                echo "<script>alert('La réservation a été annulée avec succès.)<);</script>";
             } else {
-                echo "Une erreur est survenue lors de l'annulation de la réservation.";
+                echo "<script>alert('Une erreur est survenue lors de l'annulation de la réservation.');</script>";
             }
         } else {
-            echo "Vous n'êtes pas autorisé à annuler cette réservation.";
+            echo "<script>alert('Vous n'êtes pas autorisé à annuler cette réservation.');</script>";
         }
     } else {
-        echo "ID de réservation manquant.";
+        echo "<script>alert('ID de réservation manquant.');</script>";
     }
 } else {
-    echo "Utilisateur non connecté.";
+    echo "<script>alert('Utilisateur non connecté.');</script>";
 }
 
 // Fermeture de la connexion à la base de données

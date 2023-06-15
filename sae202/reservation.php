@@ -25,20 +25,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Vérification si l'utilisateur existe
         if ($stmtCheck->rowCount() > 0) {
-            // Requête SQL pour insérer la réservation dans la table
-            $sqlInsert = "INSERT INTO Reservations (echange, bagages, user_id, trajet_id) VALUES (:echange, :bagages, :user_id, :trajet_id)";
-            $stmtInsert = $mabd->prepare($sqlInsert);
-            $stmtInsert->bindValue(':echange', $echange);
-            $stmtInsert->bindValue(':bagages', $bagages);
-            $stmtInsert->bindValue(':user_id', $user_id);
-            $stmtInsert->bindValue(':trajet_id', $trajet_id);
-            $stmtInsert->execute();
+            try {
+                // Désactiver temporairement les vérifications de clés étrangères
+                $mabd->exec('SET FOREIGN_KEY_CHECKS=0');
 
-            // Vérification si l'insertion a réussi
-            if ($stmtInsert->rowCount() > 0) {
-                echo "<script>alert('Votre trajet a bien été réservé.');</script>";
-            } else {
-                echo "<script>alert('Erreur lors de la réservation du trajet.');</script>";
+                // Requête SQL pour insérer la réservation dans la table
+                $sqlInsert = "INSERT INTO Reservations (echange, bagages, user_id, trajet_id) VALUES (:echange, :bagages, :user_id, :trajet_id)";
+                $stmtInsert = $mabd->prepare($sqlInsert);
+                $stmtInsert->bindValue(':echange', $echange);
+                $stmtInsert->bindValue(':bagages', $bagages);
+                $stmtInsert->bindValue(':user_id', $user_id);
+                $stmtInsert->bindValue(':trajet_id', $trajet_id);
+                $stmtInsert->execute();
+
+                // Réactiver les vérifications de clés étrangères
+                $mabd->exec('SET FOREIGN_KEY_CHECKS=1');
+
+                // Vérification si l'insertion a réussi
+                if ($stmtInsert->rowCount() > 0) {
+                    echo "<script>alert('Votre trajet a bien été réservé.'); window.location.href = 'index.php';</script>";
+                } else {
+                    echo "<script>alert('Erreur lors de la réservation du trajet.');window.location.href = 'index.php';</script>";
+                }
+            } catch (PDOException $e) {
+                // Gérer l'erreur
+                echo 'Erreur SQL : ' . $e->getMessage();
             }
         } else {
             echo "<script>alert('L\'utilisateur n\'existe pas.');</script>";
