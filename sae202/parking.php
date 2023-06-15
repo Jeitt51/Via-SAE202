@@ -26,6 +26,14 @@ echo '</select>';
 echo '<input type="submit" value="Afficher">';
 echo '</form>';
 
+// Formulaire d'ajout de parking
+echo '<br>Ajouter un parking :<br>';
+echo '<form action="" method="POST">';
+echo 'Nom du parking : <input type="text" name="nom"><br>';
+echo 'Commentaire : <textarea name="commentaire"></textarea><br>';
+echo 'Lien Google Maps : <input type="text" name="lien_maps"><br>';
+echo '<input type="submit" value="Ajouter">';
+echo '</form>';
 
 // Vérification si un parking a été sélectionné
 if (isset($_GET['parking_id'])) {
@@ -49,23 +57,8 @@ if (isset($_GET['parking_id'])) {
 
     // Ajout du lien de suppression
     // echo '<a href="admin/delete-parking.php?id=' . $selectedParking['parking_id'] . '">Supprimer ce parking</a>';
-} else {
-    // Si aucun parking n'est sélectionné, définir le premier parking comme sélectionné par défaut
-    if (!empty($parkings)) {
-        $selectedParkingId = $parkings[0]['parking_id'];
-        $selectedParking = $parkings[0];
 
-        // Affichage des informations du parking sélectionné
-        echo "Nom du parking : " . $selectedParking['parking_nom'] . "<br>";
-        echo "Commentaire : " . $selectedParking['parking_comm'] . "<br>";
-
-        // Affichage de l'image de Google Maps
-        echo '<iframe src="https://www.google.com/maps/embed?pb=!' . $selectedParking['parking_map'] . '"
-        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-        </iframe><br><br>';
-    }
 }
-
 
 // Fermeture de la connexion à la base de données
 deconnexionBD($mabd);
