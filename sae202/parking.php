@@ -26,15 +26,6 @@ echo '</select>';
 echo '<input type="submit" value="Afficher">';
 echo '</form>';
 
-// Formulaire d'ajout de parking
-echo '<br>Ajouter un parking :<br>';
-echo '<form action="" method="POST">';
-echo 'Nom du parking : <input type="text" name="nom"><br>';
-echo 'Commentaire : <textarea name="commentaire"></textarea><br>';
-echo 'Lien Google Maps : <input type="text" name="lien_maps"><br>';
-echo '<input type="submit" value="Ajouter">';
-echo '</form>';
-
 // Vérification si un parking a été sélectionné
 if (isset($_GET['parking_id'])) {
     $selectedParkingId = $_GET['parking_id'];
